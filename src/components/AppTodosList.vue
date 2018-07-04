@@ -4,8 +4,6 @@
     <div v-for="todo in todos" :key="todo.id">
       <App-todo
         :data="{ todo, mode: false }"
-        v-on:update="updateTodo"
-        v-on:remove="removeTodo"
       >
       </App-todo>
     </div>
@@ -23,14 +21,7 @@ export default {
   props: {
     todos: Array
   },
-  methods: {
-    updateTodo (todo) {
-      this.$emit('update', todo)
-    },
-    removeTodo (todo) {
-      this.$emit('remove', todo)
-    }
-  }
+  inject: ['updateTodo', 'removeTodo']
 }
 </script>
 

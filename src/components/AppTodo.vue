@@ -13,9 +13,9 @@
       >
         <input type="text" v-model="newTodo.name">
         <input type="text" v-model="newTodo.author">
-        <button v-on:click="$emit('update', newTodo)"> update </button>
+        <button v-on:click="updateTodo(newTodo)"> update </button>
       </p>
-      <button v-on:click="$emit('remove', data.todo)"> remove </button>
+      <button v-on:click="removeTodo(data.todo)"> remove </button>
     </div>
   </div>
 </template>
@@ -43,7 +43,8 @@ export default {
       this.newTodo = newVal.todo
       this.editeble = newVal.mode
     }
-  }
+  },
+  inject: ['updateTodo', 'removeTodo']
 }
 </script>
 

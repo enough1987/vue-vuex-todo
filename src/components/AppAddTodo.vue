@@ -23,14 +23,15 @@ export default {
         return
       }
 
-      this.$emit('add', {
+      this.addTodo({
         name: this.todo.name,
         author: this.todo.author
       })
 
       this.todo = {}
     }
-  }
+  },
+  inject: ['addTodo']
 }
 </script>
 

@@ -1,14 +1,10 @@
 
 <template>
   <div>
-    <App-add-todo
-      v-on:add="addTodo"
-      v-on:update="updateTodo">
+    <App-add-todo>
     </App-add-todo>
     <App-todos-list
       :todos="todos"
-      v-on:update="updateTodo"
-      v-on:remove="removeTodo"
     >
     </App-todos-list>
   </div>
@@ -47,6 +43,13 @@ export default {
     removeTodo (todo) {
       console.log('remove', todo)
       this.todos = this.todos.filter(_todo => _todo.id !== todo.id)
+    }
+  },
+  provide: function () {
+    return {
+      addTodo: this.addTodo,
+      updateTodo: this.updateTodo,
+      removeTodo: this.removeTodo
     }
   }
 }
