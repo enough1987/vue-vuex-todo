@@ -3,7 +3,7 @@
   <div>
     <div v-for="todo in todos" :key="todo.id">
       <App-todo
-        :data="{ todo, mode: false }"
+        :todo="todo"
       >
       </App-todo>
     </div>
@@ -20,8 +20,7 @@ export default {
   },
   props: {
     todos: Array
-  },
-  inject: ['updateTodo', 'removeTodo']
+  }
 }
 </script>
 

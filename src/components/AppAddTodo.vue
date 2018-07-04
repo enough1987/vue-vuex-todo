@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     add () {
-      if (!this.todo.name || !this.todo.author) {
+      if (!this.validateTodo(this.todo)) {
         return
       }
 
@@ -31,7 +31,7 @@ export default {
       this.todo = {}
     }
   },
-  inject: ['addTodo']
+  inject: ['addTodo', 'validateTodo']
 }
 </script>
 

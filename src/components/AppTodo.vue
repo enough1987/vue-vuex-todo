@@ -6,16 +6,16 @@
         v-if="!editeble"
         v-on:click="changeClick"
       >
-       {{ data.todo }}
+       {{ todo }}
       </p>
       <p class="inline-block"
         v-if="editeble"
       >
         <input type="text" v-model="newTodo.name">
         <input type="text" v-model="newTodo.author">
-        <button v-on:click="updateTodo(newTodo)"> update </button>
+        <button v-on:click="_updateTodo(newTodo)"> update </button>
       </p>
-      <button v-on:click="removeTodo(data.todo)"> remove </button>
+      <button v-on:click="removeTodo(todo)"> remove </button>
     </div>
   </div>
 </template>
@@ -24,27 +24,34 @@
 export default {
   name: 'app-todo',
   props: {
-    data: Object
+    todo: Object
   },
   data () {
     return {
-      newTodo: { ...this.data.todo },
-      editeble: this.data.mode
+      newTodo: { ...this.todo },
+      editeble: false
     }
   },
   methods: {
     changeClick () {
       this.editeble = !this.editeble
+    },
+    _updateTodo (newTodo) {
+      if (!this.validateTodo(newTodo)) {
+        return
+      }
+
+      this.updateTodo(newTodo)
     }
   },
   watch: {
-    data: function (newVal, oldVal) {
+    todo: function (newVal, oldVal) {
       console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-      this.newTodo = newVal.todo
-      this.editeble = newVal.mode
+      this.newTodo = newVal
+      this.editeble = false
     }
   },
-  inject: ['updateTodo', 'removeTodo']
+  inject: ['updateTodo', 'removeTodo', 'validateTodo']
 }
 </script>
 

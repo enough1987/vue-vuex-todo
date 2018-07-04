@@ -38,18 +38,25 @@ export default {
     },
     updateTodo (todo) {
       console.log('upadete', todo)
-      this.todos = this.todos.map(_todo => _todo.id !== todo.id ? _todo : todo)
+      this.todos = this.todos.map(_todo => Object.is(_todo, todo) ? {..._todo} : {...todo})
     },
     removeTodo (todo) {
       console.log('remove', todo)
       this.todos = this.todos.filter(_todo => _todo.id !== todo.id)
+    },
+    validateTodo (todo) {
+      if (!todo.name || !todo.author) {
+        return false
+      }
+      return true
     }
   },
   provide: function () {
     return {
       addTodo: this.addTodo,
       updateTodo: this.updateTodo,
-      removeTodo: this.removeTodo
+      removeTodo: this.removeTodo,
+      validateTodo: this.validateTodo
     }
   }
 }
