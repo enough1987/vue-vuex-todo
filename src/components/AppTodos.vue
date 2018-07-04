@@ -34,11 +34,19 @@ export default {
   methods: {
     addTodo (todo) {
       console.log('add', todo)
-      this.todos = [...this.todos, { ...todo, id: this.todos.length }]
+      const id = this.todos.reduce((id, todo) => {
+        if (todo.id === id || todo.id > id) {
+          return todo.id + 1
+        }
+        return id
+      }, 0)
+
+      this.todos = [...this.todos, { ...todo, id }]
     },
     updateTodo (todo) {
       console.log('upadete', todo)
-      this.todos = this.todos.map(_todo => Object.is(_todo, todo) ? {..._todo} : {...todo})
+      this.todos = this.todos.map(_todo => Object.is(_todo, todo) ? {...todo} : _todo)
+      console.log(this.todos)
     },
     removeTodo (todo) {
       console.log('remove', todo)
