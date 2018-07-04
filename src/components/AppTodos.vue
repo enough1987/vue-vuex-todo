@@ -2,11 +2,14 @@
 <template>
   <div>
     <App-add-todo
-      v-on:add="addTodo">
+      v-on:add="addTodo"
+      v-on:update="updateTodo">
     </App-add-todo>
     <App-todos-list
       :todos="todos"
-      v-on:remove="removeTodo">
+      v-on:update="updateTodo"
+      v-on:remove="removeTodo"
+    >
     </App-todos-list>
   </div>
 </template>
@@ -16,7 +19,7 @@ import AppTodosList from './AppTodosList'
 import AppAddTodo from './AppAddTodo'
 
 export default {
-  name: 'App-todos',
+  name: 'app-todos',
   components: {
     'App-add-todo': AppAddTodo,
     'App-todos-list': AppTodosList
@@ -34,11 +37,15 @@ export default {
   },
   methods: {
     addTodo (todo) {
-      console.log(todo)
+      console.log('add', todo)
       this.todos = [...this.todos, { ...todo, id: this.todos.length }]
     },
+    updateTodo (todo) {
+      console.log('upadete', todo)
+      this.todos = this.todos.map(_todo => _todo.id !== todo.id ? _todo : todo)
+    },
     removeTodo (todo) {
-      console.log(todo)
+      console.log('remove', todo)
       this.todos = this.todos.filter(_todo => _todo.id !== todo.id)
     }
   }
