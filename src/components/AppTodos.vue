@@ -13,6 +13,7 @@
 <script>
 import AppTodosList from './AppTodosList'
 import AppAddTodo from './AppAddTodo'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'app-todos',
@@ -20,38 +21,12 @@ export default {
     'App-add-todo': AppAddTodo,
     'App-todos-list': AppTodosList
   },
-  data () {
-    return {
-      todos: [
-        {
-          id: 0,
-          name: 'test',
-          author: 'test'
-        }
-      ]
-    }
+  computed: {
+    ...mapGetters('todos', {
+      todos: 'getTodos'
+    })
   },
   methods: {
-    addTodo (todo) {
-      console.log('add', todo)
-      const id = this.todos.reduce((id, todo) => {
-        if (todo.id === id || todo.id > id) {
-          return todo.id + 1
-        }
-        return id
-      }, 0)
-
-      this.todos = [...this.todos, { ...todo, id }]
-    },
-    updateTodo (todo) {
-      console.log('upadete', todo)
-      this.todos = this.todos.map(_todo => Object.is(_todo, todo) ? {...todo} : _todo)
-      console.log(this.todos)
-    },
-    removeTodo (todo) {
-      console.log('remove', todo)
-      this.todos = this.todos.filter(_todo => _todo.id !== todo.id)
-    },
     validateTodo (todo) {
       if (!todo.name || !todo.author) {
         return false
@@ -61,11 +36,11 @@ export default {
   },
   provide: function () {
     return {
-      addTodo: this.addTodo,
-      updateTodo: this.updateTodo,
-      removeTodo: this.removeTodo,
       validateTodo: this.validateTodo
     }
+  },
+  created () {
+    this.$store.dispatch('todos/getInitialState')
   }
 }
 </script>

@@ -13,7 +13,7 @@
       >
         <input type="text" v-model="newTodo.name">
         <input type="text" v-model="newTodo.author">
-        <button v-on:click="_updateTodo(newTodo)"> update </button>
+        <button v-on:click="updateTodo(newTodo)"> update </button>
       </p>
       <button v-on:click="removeTodo(todo)"> remove </button>
     </div>
@@ -36,23 +36,32 @@ export default {
     changeClick () {
       this.editeble = !this.editeble
     },
-    _updateTodo (newTodo) {
+    updateTodo (newTodo) {
       if (!this.validateTodo(newTodo)) {
         return
       }
 
-      this.updateTodo(newTodo)
+      this.$store.commit({
+        type: 'todos/updateTodo',
+        action: newTodo
+      })
+
       this.changeClick()
+    },
+    removeTodo (todo) {
+      this.$store.commit({
+        type: 'todos/removeTodo',
+        action: todo
+      })
     }
   },
   watch: {
     todo: function (newVal, oldVal) {
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-      this.newTodo = newVal
+      this.newTodo = {...newVal}
       this.editeble = false
     }
   },
-  inject: ['updateTodo', 'removeTodo', 'validateTodo']
+  inject: ['validateTodo']
 }
 </script>
 

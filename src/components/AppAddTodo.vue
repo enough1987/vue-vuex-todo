@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'app-add-todo',
   data () {
@@ -18,20 +20,26 @@ export default {
     }
   },
   methods: {
+    ...mapActions('todos', [
+      'addTodoAction'
+    ]),
     add () {
       if (!this.validateTodo(this.todo)) {
         return
       }
 
-      this.addTodo({
-        name: this.todo.name,
-        author: this.todo.author
+      this.addTodoAction({
+        type: 'todos/addTodoAction',
+        action: {
+          name: this.todo.name,
+          author: this.todo.author
+        }
       })
 
       this.todo = {}
     }
   },
-  inject: ['addTodo', 'validateTodo']
+  inject: ['validateTodo']
 }
 </script>
 
